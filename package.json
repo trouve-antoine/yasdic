@@ -1,7 +1,7 @@
 {
-  "name": "yadic",
+  "name": "yasdic",
   "version": "1.0.0",
-  "description": "Yet Another DI Container",
+  "description": "Yet Another Service DI Container",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trouve-antoine/yadic.git"
+    "url": "git+https://github.com/trouve-antoine/yasdic.git"
   },
   "keywords": [
     "dependency",
@@ -19,9 +19,9 @@
   "author": "Antoine Trouvé",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/trouve-antoine/yadic/issues"
+    "url": "https://github.com/trouve-antoine/yasdic/issues"
   },
-  "homepage": "https://github.com/trouve-antoine/yadic#readme",
+  "homepage": "https://github.com/trouve-antoine/yasdic#readme",
   "devDependencies": {
     "@types/core-js": "^0.9.44",
     "@types/debug": "0.0.30",
