@@ -1,0 +1,36 @@
+// https://www.typescriptlang.org/docs/handbook/compiler-options.html
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "../dist",
+    "target": "es6",
+    "moduleResolution": "node",
+    "declaration": true,
+
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": true,
+
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+
+    "pretty": true,
+    
+    "baseUrl": "./",
+
+    "paths": {
+      "*": [
+        "./*",
+        "../node_modules/*"
+      ]
+    }
+  },
+  "include": [
+    "./**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}

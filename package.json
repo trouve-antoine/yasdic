@@ -1,0 +1,39 @@
+{
+  "name": "yadic",
+  "version": "1.0.0",
+  "description": "Yet Another DI Container",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "cd src && tsc",
+    "test": "mocha -r ts-node/register ./test/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trouve-antoine/yadic.git"
+  },
+  "keywords": [
+    "dependency",
+    "injection"
+  ],
+  "author": "Antoine Trouvé",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trouve-antoine/yadic/issues"
+  },
+  "homepage": "https://github.com/trouve-antoine/yadic#readme",
+  "devDependencies": {
+    "@types/core-js": "^0.9.44",
+    "@types/debug": "0.0.30",
+    "@types/glob": "^5.0.34",
+    "@types/mocha": "^2.2.46",
+    "@types/node": "^4.0.35",
+    "array-includes": "^3.0.3",
+    "check-types": "^7.3.0",
+    "mocha": "^4.1.0",
+    "ts-node": "^4.1.0",
+    "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "glob": "^7.1.2"
+  }
+}
