@@ -15,6 +15,7 @@ export function globServices<ConfigT extends IServiceDIConfig>(container: IServi
     if (container.config.serviceDIContainer.debug) { console.log("[glob-services] ", ...args) }
   }
 
+  _debug("Glob patter: " + globPattern);
   _debug("Files will be tried in this order: ", filesPaths.join(", "));
 
   filesPaths.forEach(filePath => {

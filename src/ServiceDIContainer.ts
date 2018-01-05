@@ -18,6 +18,8 @@ export class ServiceDIContainer<ConfigT extends IServiceDIConfig> implements ISe
   }
 
   get<ServiceT extends IService>(serviceName: string) {
+    this._debug("Get service " + serviceName);
+
     const service = this._singletons[serviceName]
     if (!service) {
       throw new Error("No service with name: " + serviceName + " (available: " + Object.keys(this._singletons).join(",") + ")")
@@ -71,9 +73,9 @@ export class ServiceDIContainer<ConfigT extends IServiceDIConfig> implements ISe
   private _createAndCacheWaitingSingletons(): void {
     while(this._dependencyQueue.peekAllWaiting().length!==0) {
       this._dependencyQueue.peekAllWaiting().forEach(resolvedSingletonName => {
-        const resolvedSingleton = this.createSingletonAndCache(resolvedSingletonName);
-
         this._debug("Resolve singleton: " + resolvedSingletonName);
+
+        const resolvedSingleton = this.createSingletonAndCache(resolvedSingletonName);
 
         if (!resolvedSingleton) {
           throw new Error("Unable to instantiate the resolved service with name: " + resolvedSingletonName)

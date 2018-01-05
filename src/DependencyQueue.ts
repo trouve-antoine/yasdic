@@ -81,7 +81,7 @@ export class DependencyQueue {
 
   private _initializeDependenciesForResource(resource: ResourceInfos): void {
     resource.dependencies.forEach(dependency => {
-      if (dependency in this._allByName) { resource.resolved.add(dependency) }
+      if (dependency in this._resolvedByName) { resource.resolved.add(dependency) }
     })
   }
 }
