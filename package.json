@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Yet Another DI Container",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "cd src && tsc",
     "test": "mocha -r ts-node/register ./test/*.ts"
