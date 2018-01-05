@@ -102,3 +102,21 @@ describe("Glob", function () {
     );
   })
 })
+
+describe("Inject", function() {
+  var container: ServiceDIContainer<IConfig>;
+  it("Creates the container and init services", function () {
+    container = new ServiceDIContainer<IConfig>(Config);
+    globServices(container, __dirname + path.sep + "lib" + path.sep + "*Service.ts")
+    container.value("prefixString", prefixString);
+  })
+  it("Inject", function () {
+    const someFunctionCreator = (test3: test3.ITest3Service) => () =>
+      `[some-function] ${test3.test()}`
+    const someFunction = container.inject(someFunctionCreator);
+    assert.equal(
+      someFunction(),
+      "[some-function] [test1.print] test2 / [test1.print] test3"
+    )
+  })
+})
