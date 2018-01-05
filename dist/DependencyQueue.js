@@ -74,7 +74,7 @@ class DependencyQueue {
     }
     _initializeDependenciesForResource(resource) {
         resource.dependencies.forEach(dependency => {
-            if (dependency in this._allByName) {
+            if (dependency in this._resolvedByName) {
                 resource.resolved.add(dependency);
             }
         });

@@ -9,6 +9,7 @@ function globServices(container, globPattern) {
             console.log("[glob-services] ", ...args);
         }
     };
+    _debug("Glob patter: " + globPattern);
     _debug("Files will be tried in this order: ", filesPaths.join(", "));
     filesPaths.forEach(filePath => {
         const serviceName = guessServiceName(filePath);
