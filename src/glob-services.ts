@@ -42,6 +42,9 @@ export default globServices
 function guessServiceName(filePath: string): stringOrNull {
   const fileName = path.basename(filePath);
 
+  const SpecifiedServiceName : string | null = require(filePath).ServiceName
+  if (SpecifiedServiceName) { return SpecifiedServiceName }
+
   const serviceNameCamelCaseMatch = fileName.match(/(.*)Service/) || [];
   const serviceNameCamelCase = serviceNameCamelCaseMatch[1];
 

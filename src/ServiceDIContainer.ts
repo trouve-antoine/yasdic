@@ -60,11 +60,16 @@ export class ServiceDIContainer<ConfigT extends IServiceDIConfig> implements ISe
 
   singleton<ServiceT extends IService>(serviceName: string, serviceCreatorCreator: ServiceCreatorCreator<ConfigT, ServiceT>) {
     const serviceCreator = serviceCreatorCreator(this.config);
+    if (serviceCreator === null) {
+      this._debug("Do not register servie: " + serviceName + " (the creator creator returned null)");
+      return
+    }
     this._singletonCreator[serviceName] = serviceCreator;
 
-    this._debug("Register singleton: " + serviceName);
-
     const dependencyServices = getFunctionArgumentsNames(serviceCreator);
+
+    this._debug("Register singleton: " + serviceName + " (depends on " + dependencyServices.join(",") + ")");
+
     this._dependencyQueue.push(serviceName, dependencyServices);
 
     this._createAndCacheWaitingSingletons();

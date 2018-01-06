@@ -10,9 +10,9 @@ export interface ITest3Service extends IService {
 }
 
 export const Test3ServiceCreator: ServiceCreatorCreator<IConfig, ITest3Service> = config => {
-  if(config.alternate) { return null }
+  if (!config.alternate) { return null }
   return (test1: ITest1Service, test2: ITest2Service) => ({
-    test: () => test2.test() + " / " + test1.test("test3")
+    test: () => test2.test() + " / " + test1.test("alternate test3")
   })
 }
 

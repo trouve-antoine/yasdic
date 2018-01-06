@@ -120,3 +120,36 @@ describe("Inject", function() {
     )
   })
 })
+
+describe("Glob with alternate service", function () {
+  var container: ServiceDIContainer<IConfig>;
+  const AlternateConfig = { ...Config };
+  AlternateConfig.alternate = true;
+
+  it("Creates the container", function () {
+    container = new ServiceDIContainer<IConfig>(AlternateConfig);
+  })
+  it("Glob the lib folder", function () {
+    globServices(container, __dirname + path.sep + "lib" + path.sep + "*Service.ts")
+  })
+  it("Make sure we cannot access test module 1 (waiting for prefixString)", function () {
+    assert.throws(() => {
+      container.get<test1.ITest1Service>("test1")
+    })
+  })
+  it("Register value prefixString", function () {
+    container.value("prefixString", prefixString);
+  })
+  it("Can get prefixString", function () {
+    assert.equal(
+      container.get<PrefixStringFunction>("prefixString")("prefix", "string"),
+      "[prefix] string"
+    );
+  })
+  it("Can get test3", function () {
+    assert.equal(
+      container.get<test3.ITest3Service>("test3").test(),
+      "[test1.print] test2 / [test1.print] alternate test3"
+    );
+  })
+})
