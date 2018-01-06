@@ -1,6 +1,6 @@
 {
   "name": "yasdic",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Yet Another Service DI Container",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

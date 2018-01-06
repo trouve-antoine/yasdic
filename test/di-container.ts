@@ -7,7 +7,7 @@ import * as path from 'path'
 import { PrefixStringFunction, prefixString } from './lib/prefix-string'
 
 import * as test1 from './lib/Test1Service'
-import * as test2 from './lib/Test2Service'
+import * as test2 from './lib/test2-service'
 import * as test3 from './lib/Test3Service'
 import { ITest1Service } from './lib/Test1Service';
 
@@ -79,7 +79,7 @@ describe("Glob", function () {
     container = new ServiceDIContainer<IConfig>(Config);
   })
   it("Glob the lib folder", function() {
-    globServices(container, __dirname + path.sep + "lib" + path.sep + "*Service.ts")
+    globServices(container, __dirname + path.sep + "lib" + path.sep + "*ervice.ts")
   })
   it("Make sure we cannot access test module 1 (waiting for prefixString)", function () {
     assert.throws(() => {
@@ -107,7 +107,7 @@ describe("Inject", function() {
   var container: ServiceDIContainer<IConfig>;
   it("Creates the container and init services", function () {
     container = new ServiceDIContainer<IConfig>(Config);
-    globServices(container, __dirname + path.sep + "lib" + path.sep + "*Service.ts")
+    globServices(container, __dirname + path.sep + "lib" + path.sep + "*ervice.ts")
     container.value("prefixString", prefixString);
   })
   it("Inject", function () {
@@ -125,12 +125,12 @@ describe("Glob with alternate service", function () {
   var container: ServiceDIContainer<IConfig>;
   const AlternateConfig = { ...Config };
   AlternateConfig.alternate = true;
-
+  AlternateConfig.serviceDIContainer.debug = false;
   it("Creates the container", function () {
     container = new ServiceDIContainer<IConfig>(AlternateConfig);
   })
   it("Glob the lib folder", function () {
-    globServices(container, __dirname + path.sep + "lib" + path.sep + "*Service.ts")
+    globServices(container, __dirname + path.sep + "lib" + path.sep + "*ervice.ts")
   })
   it("Make sure we cannot access test module 1 (waiting for prefixString)", function () {
     assert.throws(() => {

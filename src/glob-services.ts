@@ -7,7 +7,10 @@ import { IServiceDIConfig } from './IServiceDIConfig';
 
 type stringOrNull = string | null
 
-export function globServices<ConfigT extends IServiceDIConfig>(container: IServiceDIContainerRW<ConfigT>, globPattern: string): void
+export function globServices<ConfigT extends IServiceDIConfig>(
+  container: IServiceDIContainerRW<ConfigT>,
+  globPattern: string,
+  guessServiceName: (filePath: string) => string | null = defaultGuessServiceName): void
 {
   const filesPaths = glob.sync(globPattern)
   
@@ -21,7 +24,7 @@ export function globServices<ConfigT extends IServiceDIConfig>(container: IServi
   filesPaths.forEach(filePath => {
     const serviceName = guessServiceName(filePath)
     if (!serviceName) {
-      _debug(`Skip file ${filePath}: cannot guess service name (expect: ServiceXxxYyy.ts for service xxxYyy)`)
+      _debug(`Skip file ${filePath}: cannot guess service name (expected file name: XxxYyyService or xxx-yyy-service for service xxxYyy)`)
       return;
     }
 
@@ -39,19 +42,21 @@ export function globServices<ConfigT extends IServiceDIConfig>(container: IServi
 
 export default globServices
 
-function guessServiceName(filePath: string): stringOrNull {
+function defaultGuessServiceName(filePath: string): stringOrNull {
   const fileName = path.basename(filePath);
 
   const SpecifiedServiceName : string | null = require(filePath).ServiceName
   if (SpecifiedServiceName) { return SpecifiedServiceName }
 
-  const serviceNameCamelCaseMatch = fileName.match(/(.*)Service/) || [];
+  /* TODO: Convert hyphens to camel case */
+
+  const serviceNameCamelCaseMatch = fileName.match(/(.*)(Service|-service)/) || [];
   const serviceNameCamelCase = serviceNameCamelCaseMatch[1];
 
   if (!serviceNameCamelCaseMatch) { return null; }
 
   // return camelCaseToSeparator(serviceNameCamelCase, "-");
-  return lowerCaseFirstLetter(serviceNameCamelCase)
+  return hypenToCamelCase(lowerCaseFirstLetter(serviceNameCamelCase))
 }
 
 // function camelCaseToSeparator(s: string, sep: string) {
@@ -62,4 +67,9 @@ function lowerCaseFirstLetter(s: string) {
   const firstLetter = s[0]
   const remainingLetters = s.substring(1)
   return firstLetter.toLowerCase() + remainingLetters
+}
+
+function hypenToCamelCase(s: string) {
+  return s.replace(/-([a-z])/g, g => g[1].toUpperCase());
+
 }

@@ -3,7 +3,7 @@ import { IService, ServiceCreatorCreator } from '../../src/'
 import { IConfig } from './Config'
 
 import { ITest1Service } from './Test1Service'
-import { ITest2Service } from './Test2Service'
+import { ITest2Service } from './test2-service'
 
 export interface ITest3Service extends IService {
   test(): string
