@@ -22,7 +22,9 @@ export function globServices<ConfigT extends IServiceDIConfig>(
   _debug("Files will be tried in this order: ", filesPaths.join(", "));
 
   filesPaths.forEach(filePath => {
-    const serviceName = guessServiceName(filePath)
+    let serviceName: string | null = require(filePath).ServiceName
+    if (!serviceName) { serviceName = guessServiceName(filePath) }
+
     if (!serviceName) {
       _debug(`Skip file ${filePath}: cannot guess service name (expected file name: XxxYyyService or xxx-yyy-service for service xxxYyy)`)
       return;
@@ -45,11 +47,6 @@ export default globServices
 function defaultGuessServiceName(filePath: string): stringOrNull {
   const fileName = path.basename(filePath);
 
-  const SpecifiedServiceName : string | null = require(filePath).ServiceName
-  if (SpecifiedServiceName) { return SpecifiedServiceName }
-
-  /* TODO: Convert hyphens to camel case */
-
   const serviceNameCamelCaseMatch = fileName.match(/(.*)(Service|-service)/) || [];
   const serviceNameCamelCase = serviceNameCamelCaseMatch[1];
 
@@ -71,5 +68,4 @@ function lowerCaseFirstLetter(s: string) {
 
 function hypenToCamelCase(s: string) {
   return s.replace(/-([a-z])/g, g => g[1].toUpperCase());
-
 }

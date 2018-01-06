@@ -12,7 +12,10 @@ function globServices(container, globPattern, guessServiceName = defaultGuessSer
     _debug("Glob patter: " + globPattern);
     _debug("Files will be tried in this order: ", filesPaths.join(", "));
     filesPaths.forEach(filePath => {
-        const serviceName = guessServiceName(filePath);
+        let serviceName = require(filePath).ServiceName;
+        if (!serviceName) {
+            serviceName = guessServiceName(filePath);
+        }
         if (!serviceName) {
             _debug(`Skip file ${filePath}: cannot guess service name (expected file name: XxxYyyService or xxx-yyy-service for service xxxYyy)`);
             return;
@@ -30,11 +33,6 @@ exports.globServices = globServices;
 exports.default = globServices;
 function defaultGuessServiceName(filePath) {
     const fileName = path.basename(filePath);
-    const SpecifiedServiceName = require(filePath).ServiceName;
-    if (SpecifiedServiceName) {
-        return SpecifiedServiceName;
-    }
-    /* TODO: Convert hyphens to camel case */
     const serviceNameCamelCaseMatch = fileName.match(/(.*)(Service|-service)/) || [];
     const serviceNameCamelCase = serviceNameCamelCaseMatch[1];
     if (!serviceNameCamelCaseMatch) {
