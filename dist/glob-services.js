@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const glob = require("glob");
 const path = require("path");
-function globServices(container, globPattern) {
+function globServices(container, globPattern, guessServiceName = defaultGuessServiceName) {
     const filesPaths = glob.sync(globPattern);
     const _debug = (...args) => {
         if (container.config.serviceDIContainer.debug) {
@@ -14,7 +14,7 @@ function globServices(container, globPattern) {
     filesPaths.forEach(filePath => {
         const serviceName = guessServiceName(filePath);
         if (!serviceName) {
-            _debug(`Skip file ${filePath}: cannot guess service name (expect: ServiceXxxYyy.ts for service xxxYyy)`);
+            _debug(`Skip file ${filePath}: cannot guess service name (expected file name: XxxYyyService or xxx-yyy-service for service xxxYyy)`);
             return;
         }
         const singletonServiceCreator = require(filePath).SingletonServiceCreator;
@@ -28,19 +28,20 @@ function globServices(container, globPattern) {
 }
 exports.globServices = globServices;
 exports.default = globServices;
-function guessServiceName(filePath) {
+function defaultGuessServiceName(filePath) {
     const fileName = path.basename(filePath);
     const SpecifiedServiceName = require(filePath).ServiceName;
     if (SpecifiedServiceName) {
         return SpecifiedServiceName;
     }
-    const serviceNameCamelCaseMatch = fileName.match(/(.*)Service/) || [];
+    /* TODO: Convert hyphens to camel case */
+    const serviceNameCamelCaseMatch = fileName.match(/(.*)(Service|-service)/) || [];
     const serviceNameCamelCase = serviceNameCamelCaseMatch[1];
     if (!serviceNameCamelCaseMatch) {
         return null;
     }
     // return camelCaseToSeparator(serviceNameCamelCase, "-");
-    return lowerCaseFirstLetter(serviceNameCamelCase);
+    return hypenToCamelCase(lowerCaseFirstLetter(serviceNameCamelCase));
 }
 // function camelCaseToSeparator(s: string, sep: string) {
 //   return s.split(/(?=[A-Z])/g).join(sep).toLowerCase();
@@ -49,5 +50,8 @@ function lowerCaseFirstLetter(s) {
     const firstLetter = s[0];
     const remainingLetters = s.substring(1);
     return firstLetter.toLowerCase() + remainingLetters;
+}
+function hypenToCamelCase(s) {
+    return s.replace(/-([a-z])/g, g => g[1].toUpperCase());
 }
 //# sourceMappingURL=glob-services.js.map
