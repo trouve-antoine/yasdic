@@ -94,9 +94,9 @@ export class ServiceDIContainer<ConfigT extends IServiceDIConfig> implements ISe
 // https://davidwalsh.name/javascript-arguments
 function getFunctionArgumentsNames(func: Function) : string[] {
   // First match everything inside the function argument parens.
-  const matchedArgs = func.toString().match(/function\s.*?\(([^)]*)\)/) // match functionn(...)
-                  || func.toString().match(/\(([^)]*)\)\s=>/) // match arrow function
-                  || [] // fallback
+  const matchedArgs = func.toString().match(/^\s*function\s.*?\(([^)]*)\)/) // match functionn(...)
+    || func.toString().match(/^\s*\(([^)]*)\)\s=>/) // match arrow function
+    || []; // fallback
 
   const args = matchedArgs[1] || "";
 

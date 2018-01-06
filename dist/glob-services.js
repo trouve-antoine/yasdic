@@ -12,6 +12,7 @@ function globServices(container, globPattern, guessServiceName = defaultGuessSer
     _debug("Glob patter: " + globPattern);
     _debug("Files will be tried in this order: ", filesPaths.join(", "));
     filesPaths.forEach(filePath => {
+        _debug(`Consider file: ${filePath}`);
         let serviceName = require(filePath).ServiceName;
         if (!serviceName) {
             serviceName = guessServiceName(filePath);

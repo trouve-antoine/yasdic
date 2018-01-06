@@ -22,6 +22,8 @@ export function globServices<ConfigT extends IServiceDIConfig>(
   _debug("Files will be tried in this order: ", filesPaths.join(", "));
 
   filesPaths.forEach(filePath => {
+    _debug(`Consider file: ${filePath}`);
+    
     let serviceName: string | null = require(filePath).ServiceName
     if (!serviceName) { serviceName = guessServiceName(filePath) }
 
