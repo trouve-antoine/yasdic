@@ -4,5 +4,4 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./ServiceDIContainer"));
-__export(require("./glob-services"));
 //# sourceMappingURL=index.js.map

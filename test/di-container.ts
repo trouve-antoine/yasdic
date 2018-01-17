@@ -1,4 +1,5 @@
-import { IServiceDIContainer, ServiceDIContainer, globServices } from '../src'
+import { IServiceDIContainer, ServiceDIContainer } from '../src'
+import { globServices } from '../src/glob-services'
 import { IConfig, Config } from './lib/Config'
 
 import * as assert from 'assert'
