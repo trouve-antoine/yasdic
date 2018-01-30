@@ -130,6 +130,18 @@ describe("Inject", function() {
       "[prefix] [some-function] [test1.print] test2 / [test1.print] test3"
     )
   })
+  it("Make sure extra injection overwrites services", function () {
+    const someFunctionCreator = (test3: test3.ITest3Service) => () =>
+      `[some-function] ${test3.test()}`
+    const test3Stub = {
+      test: () => "I'M A STUB"
+    }
+    const someFunction = container.inject(someFunctionCreator, { test3: test3Stub });
+    assert.equal(
+      someFunction(),
+      "[some-function] I'M A STUB"
+    )
+  })
 })
 
 describe("Glob with alternate service", function () {
