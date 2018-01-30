@@ -120,6 +120,16 @@ describe("Inject", function() {
       "[some-function] [test1.print] test2 / [test1.print] test3"
     )
   })
+  it("Inject extra services", function () {
+    const someFunctionCreator = (test3: test3.ITest3Service, addPrefix: (s: string) => string) => () =>
+      addPrefix(`[some-function] ${test3.test()}`)
+    const addPrefix = (s: string) => `[prefix] ${s}`
+    const someFunction = container.inject(someFunctionCreator, { addPrefix });
+    assert.equal(
+      someFunction(),
+      "[prefix] [some-function] [test1.print] test2 / [test1.print] test3"
+    )
+  })
 })
 
 describe("Glob with alternate service", function () {

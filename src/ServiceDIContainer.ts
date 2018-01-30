@@ -35,11 +35,15 @@ export class ServiceDIContainer<ConfigT extends IServiceDIConfig> implements ISe
     return service;
   }
 
-  inject<ServiceT extends IService>(serviceCreator: ServiceCreator<ServiceT>) : ServiceT {
+  inject<ServiceT extends IService>(
+    serviceCreator: ServiceCreator<ServiceT>,
+    extraServices = {} as { [serviceName: string]: any }
+  ) : ServiceT
+  {
     const creatorArgumentsNames = getFunctionArgumentsNames(serviceCreator)
 
     const creatorArgumentsValues = creatorArgumentsNames.map( argName =>
-      this.get<IService>(argName)
+      extraServices[argName] || this.get<IService>(argName)
     )
 
     const service = serviceCreator(...creatorArgumentsValues)

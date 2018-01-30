@@ -10,7 +10,9 @@ export declare class ServiceDIContainer<ConfigT extends IServiceDIConfig> implem
     private _debug(...args);
     get<ServiceT extends IService>(serviceName: string): ServiceT;
     createSingletonAndCache<ServiceT extends IService>(serviceName: string): (ServiceT | null);
-    inject<ServiceT extends IService>(serviceCreator: ServiceCreator<ServiceT>): ServiceT;
+    inject<ServiceT extends IService>(serviceCreator: ServiceCreator<ServiceT>, extraServices?: {
+        [serviceName: string]: any;
+    }): ServiceT;
     value<ServiceT extends IService>(serviceName: string, service: ServiceT): void;
     singleton<ServiceT extends IService>(serviceName: string, serviceCreatorCreator: ServiceCreatorCreator<ConfigT, ServiceT>): void;
     private _createAndCacheWaitingSingletons();

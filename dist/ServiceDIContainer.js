@@ -30,9 +30,9 @@ class ServiceDIContainer {
         this._singletons[serviceName] = service;
         return service;
     }
-    inject(serviceCreator) {
+    inject(serviceCreator, extraServices = {}) {
         const creatorArgumentsNames = getFunctionArgumentsNames(serviceCreator);
-        const creatorArgumentsValues = creatorArgumentsNames.map(argName => this.get(argName));
+        const creatorArgumentsValues = creatorArgumentsNames.map(argName => extraServices[argName] || this.get(argName));
         const service = serviceCreator(...creatorArgumentsValues);
         return service;
     }
