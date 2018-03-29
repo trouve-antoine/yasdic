@@ -100,6 +100,8 @@ function getFunctionArgumentsNames(func: Function) : string[] {
   // First match everything inside the function argument parens.
   const matchedArgs = func.toString().match(/^\s*function\s.*?\(([^)]*)\)/) // match functionn(...)
     || func.toString().match(/^\s*\(([^)]*)\)\s=>/) // match arrow function
+    || func.toString().match(/^\s*async\s+function\s.*?\(([^)]*)\)/) // match async function(...)
+    || func.toString().match(/^\s*async\s+\(([^)]*)\)\s=>/) // match async arrow function
     || []; // fallback
 
   const args = matchedArgs[1] || "";
