@@ -1,12 +1,13 @@
 {
   "name": "yasdic",
-  "version": "1.4.2",
+  "version": "1.4.4",
   "description": "Yet Another Service DI Container",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "cd src && tsc",
-    "test": "mocha -r ts-node/register ./test/*.ts"
+    "test": "mocha -r ts-node/register ./test/*.ts",
+    "prepublishOnly": "npm test && cd src && tsc"
   },
   "repository": {
     "type": "git",

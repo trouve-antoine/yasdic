@@ -51,7 +51,7 @@ class ServiceDIContainer {
         }
         this._singletonCreator[serviceName] = serviceCreator;
         const dependencyServices = getFunctionArgumentsNames(serviceCreator);
-        this._debug("Register singleton: " + serviceName + " (depends on " + dependencyServices.join(",") + ")");
+        this._debug("Register singleton: " + serviceName + " (depends on " + (dependencyServices.join(",") || "nothing") + ")");
         this._dependencyQueue.push(serviceName, dependencyServices);
         this._createAndCacheWaitingSingletons();
     }
@@ -72,10 +72,12 @@ exports.ServiceDIContainer = ServiceDIContainer;
 // https://davidwalsh.name/javascript-arguments
 function getFunctionArgumentsNames(func) {
     // First match everything inside the function argument parens.
-    const matchedArgs = func.toString().match(/^\s*function\s.*?\(([^)]*)\)/) // match functionn(...)
-        || func.toString().match(/^\s*\(([^)]*)\)\s=>/) // match arrow function
+    const matchedArgs = func.toString().match(/^\s*function[^(]*\(([^)]*)\)/) // match function(...)
+        || func.toString().match(/^\s*\(([^)]*)\)\s*=>/) // match arrow function
+        || func.toString().match(/^\s*([^)=>]*)\s*=>/) // match arrow function without ()
         || func.toString().match(/^\s*async\s+function\s.*?\(([^)]*)\)/) // match async function(...)
-        || func.toString().match(/^\s*async\s+\(([^)]*)\)\s=>/) // match async arrow function
+        || func.toString().match(/^\s*async\s+\(([^)]*)\)\s*=>/) // match async arrow function
+        || func.toString().match(/^\s*async\s+([^)=>]*)\s*=>/) // match async arrow function without ()
         || []; // fallback
     const args = matchedArgs[1] || "";
     // Split the arguments string into an array comma delimited.
@@ -87,4 +89,5 @@ function getFunctionArgumentsNames(func) {
         return arg;
     });
 }
+exports.getFunctionArgumentsNames = getFunctionArgumentsNames;
 //# sourceMappingURL=ServiceDIContainer.js.map

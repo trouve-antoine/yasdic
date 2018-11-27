@@ -17,3 +17,4 @@ export declare class ServiceDIContainer<ConfigT extends IServiceDIConfig> implem
     singleton<ServiceT extends IService>(serviceName: string, serviceCreatorCreator: ServiceCreatorCreator<ConfigT, ServiceT>): void;
     private _createAndCacheWaitingSingletons();
 }
+export declare function getFunctionArgumentsNames(func: Function | string): string[];
